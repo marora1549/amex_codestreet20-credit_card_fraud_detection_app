@@ -20,7 +20,7 @@ class _MakePaymentScreenState extends State<MakePaymentScreen> {
   String cardHolderName = '';
   String cvvCode = '';
   bool isCvvFocused = false;
-
+  bool isFraud;
   Widget _title() {
     return Container(
         margin: const EdgeInsets.symmetric(horizontal: 20, vertical: 10),
@@ -57,6 +57,19 @@ class _MakePaymentScreenState extends State<MakePaymentScreen> {
   Widget _submitButton(BuildContext context) {
     return FlatButton(
         onPressed: () {
+          RegExp re = new RegExp(r'34');
+          Match strMatch = re.matchAsPrefix(cardNumber);
+          print(cardNumber.startsWith(new RegExp(r'[34]')));
+          print('Above is the regex expression');
+          print(strMatch != null);
+          print('aboeve is 2nd regex');
+          if (strMatch != null) {
+            print(cardNumber + ' with false');
+            isFraud = false;
+          } else {
+            print(cardNumber + ' with true');
+            isFraud = true;
+          }
           showDialog(
               context: context,
               builder: (_) => AssetGiffyDialog(
@@ -84,10 +97,11 @@ class _MakePaymentScreenState extends State<MakePaymentScreen> {
                     },
                   ));
           Timer(Duration(seconds: 5), () async {
+            print(isFraud.toString() + ' passing variable value');
             Navigator.pop(context);
             Navigator.push(context, MaterialPageRoute(builder: (context) {
               return PaymentComplete(
-                isFraud: false,
+                isFraud: isFraud,
               );
             }));
           });

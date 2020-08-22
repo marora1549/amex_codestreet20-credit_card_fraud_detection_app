@@ -3,7 +3,7 @@ import 'package:furniture_app/components/title_text.dart';
 
 class PaymentComplete extends StatefulWidget {
   final bool isFraud;
-  PaymentComplete({this.isFraud = true});
+  PaymentComplete({this.isFraud});
   @override
   _PaymentCompleteState createState() => _PaymentCompleteState();
 }
